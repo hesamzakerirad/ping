@@ -1,0 +1,5 @@
+# One site per line. Blank lines and lines starting with # are ignored.
+# Bare domain or full URL both work. Bare domains are checked over https.
+#
+# example.com
+# https://app.example.com/health
