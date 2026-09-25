@@ -198,9 +198,15 @@ This issue closes automatically on the next run that succeeds." \
   if [[ "$url" == https://* ]]; then
     if days="$(cert_days_left "$host")"; then
       if [[ "$days" -le "$CERT_WARN_DAYS" ]]; then
-        log "  cert expires in ${days}d"
+        if [[ "$days" -lt 0 ]]; then
+          state="expired **$(( -days )) days ago**"
+          log "  cert EXPIRED $(( -days ))d ago"
+        else
+          state="expires in **${days} days**"
+          log "  cert expires in ${days}d"
+        fi
         open_issue "Cert expiring: $host" \
-          "The TLS certificate for \`${host}\` expires in **${days} days**.
+          "The TLS certificate for \`${host}\` ${state}.
 
 - Threshold: ${CERT_WARN_DAYS} days
 - Checked at: ${NOW}
